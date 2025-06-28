@@ -1,0 +1,52 @@
+.pic-ctn {
+  width: 200vw;
+  height: 50px;
+}
+
+@keyframes display {
+  0% {
+    transform: translateX(200px);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  45% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+}
+
+.pic-ctn {
+  position: relative;
+  width: 120vw;
+  height: 100px;
+  margin-top: -5vh;
+}
+
+.pic-ctn > img {
+  position: absolute;
+  top: 0; /* Asegúrate de que las imágenes estén dentro del contenedor */
+  left: calc(50% - 100px); /* Centra las imágenes horizontalmente */
+  opacity: 0;
+  animation: display 15s infinite;
+  z-index: 15;
+  margin-top: -150px;
+}
+
+img:nth-child(1) {
+    animation-delay: 0s; /* La primera imagen comienza inmediatamente */
+  }
+
+  img:nth-child(2) {
+    animation-delay: 8s; /* La segunda imagen comienza después de 5s */
+  }
