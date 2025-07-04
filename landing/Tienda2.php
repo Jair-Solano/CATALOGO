@@ -4,14 +4,37 @@ include 'conexion.php';
 $carrusel = $conexion->query("SELECT * FROM productos WHERE en_carrusel=1 ORDER BY ID ASC");
 // Obtener todos los productos para la sección de productos
 $categoria_filtro = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$busqueda = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
+
+$sql = "SELECT * FROM productos WHERE 1";
+$parametros = [];
+$tipos = '';
+
 if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batida', 'refresco'])) {
-    $stmt = $conexion->prepare("SELECT * FROM productos WHERE categoria = ? ORDER BY ID DESC");
-    $stmt->bind_param("s", $categoria_filtro);
+    $sql .= " AND categoria = ?";
+    $parametros[] = $categoria_filtro;
+    $tipos .= 's';
+}
+
+if ($busqueda !== '') {
+    $sql .= " AND (nombre LIKE ? OR descripcion LIKE ?)";
+    $like = '%' . $busqueda . '%';
+    $parametros[] = $like;
+    $parametros[] = $like;
+    $tipos .= 'ss';
+}
+
+$sql .= " ORDER BY ID DESC";
+
+if (!empty($parametros)) {
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param($tipos, ...$parametros);
     $stmt->execute();
     $productos = $stmt->get_result();
 } else {
-    $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
+    $productos = $conexion->query($sql);
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -33,16 +56,21 @@ if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batida', 'refres
   </header>
   <!-- Buscador por categoría -->
 <section style="text-align: center; padding: 20px; background: #fff4d9;">
-  <form method="GET">
-    <label for="categoria" style="font-weight: bold; color: #a1001f; font-size: 1.1em;">Filtrar por categoría:</label>
-    <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 0.5em 1em; margin-left: 10px; border-radius: 10px; border: 1px solid #e2b100;">
+  <form method="GET" style="display: flex; flex-wrap: wrap; gap: 1em; justify-content: center; align-items: center;">
+    <label for="categoria" style="font-weight: bold; color: #a1001f;">Categoría:</label>
+    <select name="categoria" id="categoria" style="padding: 0.5em; border-radius: 10px; border: 1px solid #e2b100;">
       <option value="">Todas</option>
       <option value="combo" <?= $categoria_filtro === 'combo' ? 'selected' : '' ?>>Combo</option>
-      <option value="batido" <?= $categoria_filtro === 'batido' ? 'selected' : '' ?>>Batido</option>
+      <option value="batida" <?= $categoria_filtro === 'batida' ? 'selected' : '' ?>>Batida</option>
       <option value="refresco" <?= $categoria_filtro === 'refresco' ? 'selected' : '' ?>>Refresco</option>
     </select>
+
+    <input type="text" name="buscar" placeholder="Buscar producto..." value="<?= htmlspecialchars($busqueda) ?>" style="padding: 0.5em; border-radius: 10px; border: 1px solid #ccc; min-width: 200px;">
+
+    <button type="submit" style="padding: 0.5em 1.2em; border-radius: 10px; border: none; background: #a1001f; color: white; font-weight: bold;">Buscar</button>
   </form>
 </section>
+
 
   <section class="hero">
     <div class="overlay"></div>
@@ -78,6 +106,10 @@ if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batida', 'refres
   <main>
     <h2 class="section-title">Lo más vendido</h2>
     <section class="product-list">
+	<?php if ($productos->num_rows === 0): ?>
+  <p style="text-align:center; margin-top: 20px; font-size: 1.2em; color: #a1001f;">No se encontraron productos.</p>
+<?php endif; ?>
+
       <?php while($p = $productos->fetch_assoc()): ?>
       <div class="product-card" data-nombre="<?= htmlspecialchars($p['nombre']) ?>" data-precio="<?= number_format($p['precio'],2) ?>" data-desc="<?= htmlspecialchars($p['descripcion']) ?>" data-img="imagenes/<?= htmlspecialchars($p['imagen']) ?>" data-rating="<?= isset($p['calificacion']) ? (int)$p['calificacion'] : 5 ?>">
         <div class="product-card-img-container">
