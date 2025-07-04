@@ -108,7 +108,7 @@ $combo['categoria'] = $categoria;
     <select name="categoria" required>
         <option value="">Selecciona una categoría</option>
         <option value="combo" <?= $combo['categoria'] === 'combo' ? 'selected' : '' ?>>Combo</option>
-        <option value="batida" <?= $combo['categoria'] === 'batida' ? 'selected' : '' ?>>Batida</option>
+        <option value="batido" <?= $combo['categoria'] === 'batido' ? 'selected' : '' ?>>Batido</option>
         <option value="refresco" <?= $combo['categoria'] === 'refresco' ? 'selected' : '' ?>>Refresco</option>
     </select>
 </label>

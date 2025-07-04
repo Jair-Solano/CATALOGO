@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <select name="categoria" required>
                     <option value="">Selecciona una categoría</option>
                     <option value="combo">Combo</option>
-                    <option value="batida">Batida</option>
+                    <option value="batido">Batido</option>
                     <option value="refresco">Refresco</option>
                 </select>
             </label>
