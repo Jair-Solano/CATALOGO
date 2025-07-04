@@ -17,6 +17,12 @@ if (!$combo) {
 }
 // Procesar edición
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$categoria = $_POST['categoria'];
+$upd = $conexion->prepare("UPDATE productos SET nombre=?, descripcion=?, precio=?, categoria=? WHERE ID=?");
+$upd->bind_param('ssdsi', $nombre, $descripcion, $precio, $categoria, $id);
+$upd->execute();
+$combo['categoria'] = $categoria;
+
     if (isset($_POST['eliminar'])) {
         // Eliminar combo
         $del = $conexion->prepare("DELETE FROM productos WHERE ID=?");
@@ -68,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         .edit-form { max-width: 400px; margin: 40px auto; background: #fff; padding: 2em; border-radius: 10px; box-shadow: 0 2px 8px #0002; }
         .edit-form label { display: block; margin-top: 1em; }
-        .edit-form input, .edit-form textarea { width: 100%; padding: 0.5em; margin-top: 0.3em; }
+        .edit-form input, .edit-form textarea, .edit-form select { width: 100%; padding: 0.5em; margin-top: 0.3em; }
         .edit-form button { margin-top: 1.5em; padding: 0.7em 1.5em; font-size: 1.1em; font-weight: bold; border: none; border-radius: 30px; cursor: pointer; transition: background 0.2s; }
         .edit-form .guardar-btn { background: #e2b100; color: #fff; margin-right: 1em; }
         .edit-form .guardar-btn:hover { background: #cfa000; }
@@ -98,6 +104,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Precio:
                 <input type="number" name="precio" step="0.01" value="<?= htmlspecialchars($combo['precio']) ?>" required>
             </label>
+			<label>Categoría:
+    <select name="categoria" required>
+        <option value="">Selecciona una categoría</option>
+        <option value="combo" <?= $combo['categoria'] === 'combo' ? 'selected' : '' ?>>Combo</option>
+        <option value="batida" <?= $combo['categoria'] === 'batida' ? 'selected' : '' ?>>Batida</option>
+        <option value="refresco" <?= $combo['categoria'] === 'refresco' ? 'selected' : '' ?>>Refresco</option>
+    </select>
+</label>
+
             <label>Imagen actual:</label>
             <img src="imagenes/combo<?= $combo['ID'] ?>.png?<?= time() ?>" alt="Combo" onerror="this.style.display='none'">
             <label>Subir nueva imagen:</label>

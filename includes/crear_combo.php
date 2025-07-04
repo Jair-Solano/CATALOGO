@@ -1,20 +1,19 @@
 <?php
 include 'conexion.php';
-$combo = [
-    'nombre' => '',
-    'descripcion' => '',
-    'precio' => '',
-];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
     $precio = floatval($_POST['precio']);
+    $categoria = $_POST['categoria'];
     $imagen = '';
+
     // Primero insertamos el producto sin imagen para obtener el ID
-    $ins = $conexion->prepare("INSERT INTO productos (nombre, descripcion, precio, imagen) VALUES (?, ?, ?, ?)");
-    $ins->bind_param('ssds', $nombre, $descripcion, $precio, $imagen);
+    $ins = $conexion->prepare("INSERT INTO productos (nombre, descripcion, precio, imagen, categoria) VALUES (?, ?, ?, ?, ?)");
+    $ins->bind_param('ssdss', $nombre, $descripcion, $precio, $imagen, $categoria);
     $ins->execute();
     $nuevo_id = $conexion->insert_id;
+
     // Procesar imagen si se subió
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $tmp_name = $_FILES['imagen']['tmp_name'];
@@ -22,30 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagen = $original_name;
         $dest = __DIR__ . "/imagenes/" . $imagen;
         move_uploaded_file($tmp_name, $dest);
+
         // Actualizar el campo imagen en la base de datos
         $upd = $conexion->prepare("UPDATE productos SET imagen=? WHERE id=?");
         $upd->bind_param('si', $imagen, $nuevo_id);
         $upd->execute();
-        $msg = "Combo creado con imagen.";
+        $msg = "Producto creado con imagen.";
     } else {
-        $msg = "Combo creado.";
+        $msg = "Producto creado.";
     }
+
     header('Location: panel_productos.php?msg=creado');
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Combo</title>
+    <title>Crear Producto</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .edit-form { max-width: 400px; margin: 40px auto; background: #fff; padding: 2em; border-radius: 10px; box-shadow: 0 2px 8px #0002; }
         .edit-form label { display: block; margin-top: 1em; }
-        .edit-form input, .edit-form textarea { width: 100%; padding: 0.5em; margin-top: 0.3em; }
+        .edit-form input, .edit-form textarea, .edit-form select { width: 100%; padding: 0.5em; margin-top: 0.3em; }
         .edit-form button { margin-top: 1.5em; padding: 0.7em 1.5em; font-size: 1.1em; font-weight: bold; border: none; border-radius: 30px; cursor: pointer; transition: background 0.2s; }
-        .edit-form .guardar-btn { background: #e2b100; color: #fff; margin-top: 0 !important; align-self: center; } /* <-- Alinea el botón y elimina margen superior */
+        .edit-form .guardar-btn { background: #e2b100; color: #fff; margin-top: 0 !important; align-self: center; }
         .edit-form .guardar-btn:hover { background: #cfa000; }
         .edit-form .msg { color: green; margin-top: 1em; }
         .edit-form img { max-width: 100%; margin-top: 1em; border-radius: 8px; }
@@ -62,22 +64,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="edit-form">
-        <h2>Crear Combo</h2>
+        <h2>Crear Producto</h2>
         <?php if(isset($msg)) echo '<div class="msg">'.$msg.'</div>'; ?>
         <form method="post" enctype="multipart/form-data">
             <label>Nombre:
-                <input type="text" name="nombre" value="" required>
+                <input type="text" name="nombre" required>
             </label>
             <label>Descripción:
                 <textarea name="descripcion" required></textarea>
             </label>
             <label>Precio:
-                <input type="number" name="precio" step="0.01" value="" required>
+                <input type="number" name="precio" step="0.01" required>
             </label>
-            <div class="custom-file-input-wrapper" style="justify-content:center; gap: 1em;">
+            <label>Categoría:
+                <select name="categoria" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="combo">Combo</option>
+                    <option value="batida">Batida</option>
+                    <option value="refresco">Refresco</option>
+                </select>
+            </label>
+            <div class="custom-file-input-wrapper">
                 <button type="button" class="select-img-btn" onclick="document.getElementById('realFileInput').click();">Elegir imagen</button>
                 <input type="file" name="imagen" id="realFileInput" accept="image/png,image/jpeg" style="display:none">
-                <button type="submit" name="guardar" class="guardar-btn" style="margin-top:0;">Crear Combo</button>
+                <button type="submit" name="guardar" class="guardar-btn">Crear Producto</button>
             </div>
         </form>
         <a href="panel_productos.php" class="volver-btn">&larr; Volver al panel</a>

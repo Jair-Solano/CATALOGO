@@ -68,6 +68,7 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
                     <th>Nombre</th>
                     <th>Precio</th>
                     <th>Descripción</th>
+					 <th>Categoría</th>
                     <th>En Carrusel</th>
                 </tr>
             </thead>
@@ -78,6 +79,7 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
                     <td><?= htmlspecialchars($p['nombre']) ?></td>
                     <td>$<?= number_format($p['precio'],2) ?></td>
                     <td><?= htmlspecialchars($p['descripcion']) ?></td>
+					<td><?= htmlspecialchars($p['categoria']) ?></td>
                     <td><input type="checkbox" class="carrusel-checkbox" name="carrusel_ids[]" value="<?= $p['ID'] ?>" <?= $p['en_carrusel'] ? 'checked' : '' ?> onclick="event.stopPropagation();"></td>
                 </tr>
             <?php endwhile; ?>
