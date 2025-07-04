@@ -10,7 +10,7 @@ $sql = "SELECT * FROM productos WHERE 1";
 $parametros = [];
 $tipos = '';
 
-if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batida', 'refresco'])) {
+if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batido', 'refresco'])) {
     $sql .= " AND categoria = ?";
     $parametros[] = $categoria_filtro;
     $tipos .= 's';
@@ -43,7 +43,7 @@ if (!empty($parametros)) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Catálogo</title>
-  <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="style1.css"> 
   <link rel="stylesheet" href="product-card.css">
   <link rel="stylesheet" href="carousel.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +61,7 @@ if (!empty($parametros)) {
     <select name="categoria" id="categoria" style="padding: 0.5em; border-radius: 10px; border: 1px solid #e2b100;">
       <option value="">Todas</option>
       <option value="combo" <?= $categoria_filtro === 'combo' ? 'selected' : '' ?>>Combo</option>
-      <option value="batida" <?= $categoria_filtro === 'batida' ? 'selected' : '' ?>>Batida</option>
+      <option value="batido" <?= $categoria_filtro === 'batido' ? 'selected' : '' ?>>Batido</option>
       <option value="refresco" <?= $categoria_filtro === 'refresco' ? 'selected' : '' ?>>Refresco</option>
     </select>
 
