@@ -23,7 +23,12 @@ INSERT INTO `productos` (`ID`, `nombre`, `precio`, `descripcion`, `categoria`, `
 (5, 'Combo 5 - Callepollo Crispy', 6.75, 'Pieza de pollo crujiente con papas fritas y soda', 'combo', 'pollocrispy.jpg', 0),
 (6, 'Combo 6 - Callewrap de pollo', 6.25, 'Wrap de pollo con papas fritas y soda', 'combo', 'pollowrap.jpg', 0),
 (7, 'Combo 7 - Callepollo BBQ', 6.80, 'Pieza de pollo a la BBQ con papas fritas y soda', 'combo', 'pollobbq.jpg', 1),
-(8, 'Combo 8 - Nuggets Callejeros', 5.00, 'Nuggets de pollo con papas fritas y soda', 'combo', 'combo8.png', 1);
+(8, 'Combo 8 - Nuggets Callejeros', 5.00, 'Nuggets de pollo con papas fritas y soda', 'combo', 'combo8.png', 1),
+(9, 'Batido de fresa', 2.99, 'Batido de fresa', 'batido', 'batido1.png', 0),
+(10, 'Batido de chocolate', 3.99, 'Batido de chocolate', 'batido', 'batido2.png', 0),
+(11, 'Batido de guineo', 3.99, 'Batido de guineo', 'batido', 'batido3.png', 1),
+(12, 'Coca cola', 3.99, 'Vaso de coca cola', 'refresco', 'refresco2.png', 0),
+(13, 'Limonada de piña', 3.99, 'Limonada de piña', 'refresco', 'refresco1.png', 0);
 
 --
 -- Índices para tablas volcadas
