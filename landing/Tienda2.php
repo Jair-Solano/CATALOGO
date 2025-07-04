@@ -3,7 +3,16 @@ include 'conexion.php';
 // Obtener productos para el carrusel (en_carrusel=1)
 $carrusel = $conexion->query("SELECT * FROM productos WHERE en_carrusel=1 ORDER BY ID ASC");
 // Obtener todos los productos para la sección de productos
-$productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
+$categoria_filtro = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+if ($categoria_filtro && in_array($categoria_filtro, ['combo', 'batida', 'refresco'])) {
+    $stmt = $conexion->prepare("SELECT * FROM productos WHERE categoria = ? ORDER BY ID DESC");
+    $stmt->bind_param("s", $categoria_filtro);
+    $stmt->execute();
+    $productos = $stmt->get_result();
+} else {
+    $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,6 +31,18 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
   <header class="main-header">
     <!-- Puedes agregar aquí lógica PHP para el usuario, carrito, etc. -->
   </header>
+  <!-- Buscador por categoría -->
+<section style="text-align: center; padding: 20px; background: #fff4d9;">
+  <form method="GET">
+    <label for="categoria" style="font-weight: bold; color: #a1001f; font-size: 1.1em;">Filtrar por categoría:</label>
+    <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 0.5em 1em; margin-left: 10px; border-radius: 10px; border: 1px solid #e2b100;">
+      <option value="">Todas</option>
+      <option value="combo" <?= $categoria_filtro === 'combo' ? 'selected' : '' ?>>Combo</option>
+      <option value="batido" <?= $categoria_filtro === 'batido' ? 'selected' : '' ?>>Batido</option>
+      <option value="refresco" <?= $categoria_filtro === 'refresco' ? 'selected' : '' ?>>Refresco</option>
+    </select>
+  </form>
+</section>
 
   <section class="hero">
     <div class="overlay"></div>
