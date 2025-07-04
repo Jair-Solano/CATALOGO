@@ -10,7 +10,7 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NLanzamiento</title>
+  <title>Catálogo</title>
   <link rel="stylesheet" href="style.css"> 
   <link rel="stylesheet" href="product-card.css">
   <link rel="stylesheet" href="carousel.css">
@@ -64,6 +64,8 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
         </div>
         <div class="product-info">
           <h3 class="product-name"><?= htmlspecialchars($p['nombre']) ?></h3>
+		  <p class="product-category"><?= ucfirst(htmlspecialchars($p['categoria'])) ?></p>
+
           <span class="product-price">$<?= number_format($p['precio'],2) ?></span>
           <div class="product-rating">
             <?php 
@@ -93,6 +95,8 @@ $productos = $conexion->query("SELECT * FROM productos ORDER BY ID DESC");
         <img src="" alt="Imagen producto" class="product-modal-img" />
         <h3 class="product-modal-name"></h3>
         <span class="product-modal-price"></span>
+		<p class="product-category"><?= ucfirst(htmlspecialchars($p['categoria'])) ?></p>
+
         <p class="product-modal-desc"></p>
         <div class="product-modal-rating"></div>
       </div>
