@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Callejon - Confirmar pedido</title>
+  <link rel="stylesheet" href="App_modificado.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <img src="logo.png" alt="logo" class="logo">
+    <h1>El Callejon</h1>
+  </header>
+
+  <div class="app-container">
+    <main class="card">
+      <h2>Confirmar pedido</h2>
+
+      <div class="content">
+        <div class="form-section">
+          <label>Tipo de entrega:</label>
+          <select disabled>
+            <option>Retiro</option>
+          </select>
+
+          <label>Ubicacion:</label>
+          <select>
+            <option>Seleccionar</option>
+          </select>
+
+          <label>Metodo de pago</label>
+          <button class="payment-button">Efectivo</button>
+
+          <div class="toggle-section">
+            <span>¿Desea su factura por correo electronico?</span>
+            <input type="checkbox">
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <p>Productos: <span>$6.50</span></p>
+          <p>Envio: <span>$0.00</span></p>
+          <p>ITBMS: <span>$0.10</span></p>
+          <p class="total">Total: <span>$6.60</span></p>
+          <button class="order-button">Pedir</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
