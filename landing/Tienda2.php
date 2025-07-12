@@ -34,8 +34,6 @@ if (!empty($parametros)) {
 } else {
     $productos = $conexion->query($sql);
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,6 +52,7 @@ if (!empty($parametros)) {
   <header class="main-header">
     <!-- Puedes agregar aquí lógica PHP para el usuario, carrito, etc. -->
   </header>
+
   <!-- Buscador por categoría -->
 <section style="text-align: center; padding: 20px; background: #fff4d9;">
   <form method="GET" style="display: flex; flex-wrap: wrap; gap: 1em; justify-content: center; align-items: center;">
@@ -70,7 +69,6 @@ if (!empty($parametros)) {
     <button type="submit" style="padding: 0.5em 1.2em; border-radius: 10px; border: none; background: #a1001f; color: white; font-weight: bold;">Buscar</button>
   </form>
 </section>
-
 
   <section class="hero">
     <div class="overlay"></div>
@@ -106,19 +104,24 @@ if (!empty($parametros)) {
   <main>
     <h2 class="section-title">Lo más vendido</h2>
     <section class="product-list">
-	<?php if ($productos->num_rows === 0): ?>
-  <p style="text-align:center; margin-top: 20px; font-size: 1.2em; color: #a1001f;">No se encontraron productos.</p>
-<?php endif; ?>
+    <?php if ($productos->num_rows === 0): ?>
+      <p style="text-align:center; margin-top: 20px; font-size: 1.2em; color: #a1001f;">No se encontraron productos.</p>
+    <?php endif; ?>
 
-      <?php while($p = $productos->fetch_assoc()): ?>
-      <div class="product-card" data-nombre="<?= htmlspecialchars($p['nombre']) ?>" data-precio="<?= number_format($p['precio'],2) ?>" data-desc="<?= htmlspecialchars($p['descripcion']) ?>" data-img="imagenes/<?= htmlspecialchars($p['imagen']) ?>" data-rating="<?= isset($p['calificacion']) ? (int)$p['calificacion'] : 5 ?>">
+    <?php while($p = $productos->fetch_assoc()): ?>
+      <div class="product-card" 
+           data-nombre="<?= htmlspecialchars($p['nombre']) ?>" 
+           data-precio="<?= number_format($p['precio'],2) ?>" 
+           data-desc="<?= htmlspecialchars($p['descripcion']) ?>" 
+           data-img="imagenes/<?= htmlspecialchars($p['imagen']) ?>" 
+           data-rating="<?= isset($p['calificacion']) ? (int)$p['calificacion'] : 5 ?>"
+           data-categoria="<?= htmlspecialchars($p['categoria']) ?>">
         <div class="product-card-img-container">
           <img src="assets/imagenes/<?= htmlspecialchars($p['imagen']) ?>" alt="<?= htmlspecialchars($p['nombre']) ?>" class="product-card-img" />
         </div>
         <div class="product-info">
           <h3 class="product-name"><?= htmlspecialchars($p['nombre']) ?></h3>
-		  <p class="product-category"><?= ucfirst(htmlspecialchars($p['categoria'])) ?></p>
-
+          <p class="product-category"><?= ucfirst(htmlspecialchars($p['categoria'])) ?></p>
           <span class="product-price">$<?= number_format($p['precio'],2) ?></span>
           <div class="product-rating">
             <?php 
@@ -129,18 +132,17 @@ if (!empty($parametros)) {
               }
             ?>
           </div>
-		  <div class="product-actions">
-  <form action="agregar_carrito.php" method="POST">
-    <input type="hidden" name="producto_id" value="<?= $p['ID'] ?>">
-    <button type="submit" class="add-to-cart-btn">Agregar al carrito</button>
-  </form>
-</div>
-
+          <div class="product-actions">
+            <form action="agregar_carrito.php" method="POST">
+              <input type="hidden" name="producto_id" value="<?= $p['ID'] ?>">
+              <button type="submit" class="add-to-cart-btn">Agregar al carrito</button>
+            </form>
+          </div>
         </div>
-		
       </div>
-      <?php endwhile; ?>
+    <?php endwhile; ?>
     </section>
+
     <!-- Modal para detalles del producto -->
     <div id="product-modal" class="product-modal-overlay" style="display:none;">
       <div class="product-modal">
@@ -148,8 +150,7 @@ if (!empty($parametros)) {
         <img src="" alt="Imagen producto" class="product-modal-img" />
         <h3 class="product-modal-name"></h3>
         <span class="product-modal-price"></span>
-		<p class="product-category"><?= ucfirst(htmlspecialchars($p['categoria'])) ?></p>
-
+        <p class="product-modal-category"></p>
         <p class="product-modal-desc"></p>
         <div class="product-modal-rating"></div>
       </div>
@@ -162,7 +163,6 @@ if (!empty($parametros)) {
 
   <!-- Carrusel funcionalidad -->
   <script>
-    // Carrusel funcionalidad
     const slides = document.querySelectorAll('.carousel-slide');
     const indicators = document.querySelectorAll('.indicator');
     const leftArrow = document.querySelector('.carousel-arrow.left');
@@ -188,10 +188,10 @@ if (!empty($parametros)) {
     indicators.forEach((ind, i) => {
       ind.onclick = () => showSlide(i);
     });
-    // setInterval(nextSlide, 6000);
   </script>
+
+  <!-- Modal funcionalidad -->
   <script>
-    // Modal de producto
     document.querySelectorAll('.product-card').forEach(card => {
       card.addEventListener('click', function() {
         const modal = document.getElementById('product-modal');
@@ -200,7 +200,9 @@ if (!empty($parametros)) {
         modal.querySelector('.product-modal-name').textContent = this.dataset.nombre;
         modal.querySelector('.product-modal-price').textContent = '$' + this.dataset.precio;
         modal.querySelector('.product-modal-desc').textContent = this.dataset.desc;
-        // Calificación en muslitos
+        modal.querySelector('.product-modal-category').textContent = 
+          this.dataset.categoria.charAt(0).toUpperCase() + this.dataset.categoria.slice(1);
+
         const rating = parseInt(this.dataset.rating || '5');
         let muslitos = '';
         for(let i=1;i<=5;i++) {
@@ -215,43 +217,6 @@ if (!empty($parametros)) {
     document.getElementById('product-modal').onclick = function(e) {
       if(e.target === this) this.style.display = 'none';
     };
-  </script>
-  <script>
-    // Parallax y overlay (igual que antes)
-    const sectionChanel = document.querySelector('.section-chanel');
-    const sectionVictoria = document.querySelector('.section-victoria');
-    const sectionBolsos = document.querySelector('.section-bolsos');
-    const hero = document.querySelector('.hero');
-    const overlay = document.querySelector('.hero .overlay');
-    window.addEventListener('scroll', () => {
-      const windowHeight = window.innerHeight;
-      const scrollTop = window.scrollY;
-      const activationPoint = windowHeight * 0.5;
-      const maxMovement = 50;
-      const startPosition = -150;
-      function applyParallax(section) {
-        if (!section) return;
-        const sectionTop = section.getBoundingClientRect().top;
-        const sectionHeight = section.offsetHeight;
-        if (sectionTop < activationPoint && (sectionTop + sectionHeight) > 0) {
-          const progress = Math.min((activationPoint - sectionTop) / (activationPoint + sectionHeight), 1);
-          const moveY = startPosition + (progress * maxMovement);
-          section.style.backgroundPosition = `center ${moveY}px`;
-        } else if (sectionTop >= activationPoint) {
-          section.style.backgroundPosition = `center ${startPosition}px`;
-        }
-      }
-      applyParallax(sectionChanel);
-      applyParallax(sectionVictoria);
-      applyParallax(sectionBolsos);
-      const heroHeight = hero.offsetHeight;
-      if (scrollTop < heroHeight) {
-        const opacity = Math.min(scrollTop / heroHeight, 0.6);
-        overlay.style.opacity = opacity;
-      } else {
-        overlay.style.opacity = 0.6;
-      }
-    });
   </script>
 </body>
 </html>
