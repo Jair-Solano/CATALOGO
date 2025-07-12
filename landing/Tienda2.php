@@ -87,7 +87,7 @@ if (!empty($parametros)) {
               <button class="combo-btn">PEDIR COMBO</button>
             </div>
             <div class="carousel-img-container">
-              <img src="imagenes/<?= htmlspecialchars($combo['imagen']) ?>" alt="<?= htmlspecialchars($combo['nombre']) ?>" class="carousel-img" />
+              <img src="assets/imagenes/<?= htmlspecialchars($combo['imagen']) ?>" alt="<?= htmlspecialchars($combo['nombre']) ?>" class="carousel-img" />
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@ if (!empty($parametros)) {
       <?php while($p = $productos->fetch_assoc()): ?>
       <div class="product-card" data-nombre="<?= htmlspecialchars($p['nombre']) ?>" data-precio="<?= number_format($p['precio'],2) ?>" data-desc="<?= htmlspecialchars($p['descripcion']) ?>" data-img="imagenes/<?= htmlspecialchars($p['imagen']) ?>" data-rating="<?= isset($p['calificacion']) ? (int)$p['calificacion'] : 5 ?>">
         <div class="product-card-img-container">
-          <img src="imagenes/<?= htmlspecialchars($p['imagen']) ?>" alt="<?= htmlspecialchars($p['nombre']) ?>" class="product-card-img" />
+          <img src="assets/imagenes/<?= htmlspecialchars($p['imagen']) ?>" alt="<?= htmlspecialchars($p['nombre']) ?>" class="product-card-img" />
         </div>
         <div class="product-info">
           <h3 class="product-name"><?= htmlspecialchars($p['nombre']) ?></h3>
