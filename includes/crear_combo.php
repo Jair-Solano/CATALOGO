@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tmp_name = $_FILES['imagen']['tmp_name'];
         $original_name = basename($_FILES['imagen']['name']);
         $imagen = $original_name;
-        $dest = __DIR__ . "/imagenes/" . $imagen;
+        $dest = __DIR__ . "/assets/imagenes/" . $imagen;
         move_uploaded_file($tmp_name, $dest);
 
         // Actualizar el campo imagen en la base de datos
