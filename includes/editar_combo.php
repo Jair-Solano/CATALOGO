@@ -29,7 +29,7 @@ $combo['categoria'] = $categoria;
         $del->bind_param('i', $id);
         $del->execute();
         // Eliminar imagen asociada si existe
-        $img_path = __DIR__ . "/imagenes/combo$id.png";
+        $img_path = __DIR__ . "/assets/imagenes/combo$id.png";
         if (file_exists($img_path)) {
             unlink($img_path);
         }
@@ -51,7 +51,7 @@ $combo['categoria'] = $categoria;
             $tmp_name = $_FILES['imagen']['tmp_name'];
             $original_name = basename($_FILES['imagen']['name']);
             $imagen = $original_name;
-            $dest = __DIR__ . "/imagenes/" . $imagen;
+            $dest = __DIR__ . "/assets/imagenes/" . $imagen;
             move_uploaded_file($tmp_name, $dest);
             // Actualizar el campo imagen en la base de datos
             $upd_img = $conexion->prepare("UPDATE productos SET imagen=? WHERE ID=?");
@@ -114,7 +114,8 @@ $combo['categoria'] = $categoria;
 </label>
 
             <label>Imagen actual:</label>
-            <img src="imagenes/combo<?= $combo['ID'] ?>.png?<?= time() ?>" alt="Combo" onerror="this.style.display='none'">
+            <img src="assets/imagenes/<?= htmlspecialchars($combo['imagen']) ?>?<?= time() ?>" alt="Imagen del combo" onerror="this.style.display='none'">
+
             <label>Subir nueva imagen:</label>
             <div class="custom-file-input-wrapper">
                 <button type="button" class="select-img-btn" onclick="document.getElementById('realFileInput').click();">Elegir imagen</button>
