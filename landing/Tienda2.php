@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../db/conexion.php';
 session_start();
 // Obtener productos para el carrusel (en_carrusel=1)
 $carrusel = $conexion->query("SELECT * FROM productos WHERE en_carrusel=1 ORDER BY ID ASC");
@@ -131,7 +131,7 @@ if (!empty($parametros)) {
       <?php while ($p = $productos->fetch_assoc()): ?>
         <div class="product-card" data-nombre="<?= htmlspecialchars($p['nombre']) ?>"
           data-precio="<?= number_format($p['precio'], 2) ?>" data-desc="<?= htmlspecialchars($p['descripcion']) ?>"
-          data-img="../assets/imagenes<?= htmlspecialchars($p['imagen']) ?>"
+          data-img="../assets/imagenes/<?= htmlspecialchars($p['imagen']) ?>"
           data-rating="<?= isset($p['calificacion']) ? (int) $p['calificacion'] : 5 ?>"
           data-categoria="<?= htmlspecialchars($p['categoria']) ?>">
           <div class="product-card-img-container">
@@ -153,7 +153,7 @@ if (!empty($parametros)) {
             </div>
             <div class="product-actions">
               <button type="button" class="add-to-cart-btn"
-                onclick="agregarAlCarrito(<?= $p['ID'] ?>, '<?= htmlspecialchars(addslashes($p['nombre'])) ?>', <?= $p['precio'] ?>)">
+                onclick="agregarAlCarrito(<?= $p['ID'] ?>, '<?= htmlspecialchars(addslashes($p['nombre'])) ?>', <?= $p['precio'] ?>, '../assets/imagenes/<?= htmlspecialchars($p['imagen']) ?>')">
                 Agregar al carrito
               </button>
             </div>
@@ -226,7 +226,7 @@ if (!empty($parametros)) {
         const rating = parseInt(this.dataset.rating || '5');
         let muslitos = '';
         for (let i = 1; i <= 5; i++) {
-          muslitos += `<img src="imagenes/muslito.png" alt="Muslito" style="width:28px;opacity:${i <= rating ? 1 : 0.3};margin:0 2px;">`;
+          muslitos += `<img src="../assets/imag/muslito.png" alt="Muslito" style="width:28px;opacity:${i <= rating ? 1 : 0.3};margin:0 2px;">`;
         }
         modal.querySelector('.product-modal-rating').innerHTML = muslitos;
       });
@@ -240,14 +240,14 @@ if (!empty($parametros)) {
   </script>
 
   <script>
-    function agregarAlCarrito(id, nombre, precio) {
+    function agregarAlCarrito(id, nombre, precio, imagen) {
       const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
       const index = carrito.findIndex(p => p.id === id);
 
       if (index !== -1) {
         carrito[index].cantidad += 1;
       } else {
-        carrito.push({ id, nombre, precio, cantidad: 1 });
+        carrito.push({ id, nombre, precio, cantidad: 1, imagen });
       }
 
       localStorage.setItem("carrito", JSON.stringify(carrito));

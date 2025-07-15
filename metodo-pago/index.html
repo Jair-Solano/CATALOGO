@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Callejon - Confirmar pedido</title>
-  <link rel="stylesheet" href="App_modificado.css">
+  <link rel="stylesheet" href="../assets/css/App_modificado.css">
 </head>
 <body>
 
@@ -40,15 +40,38 @@
         </div>
 
         <div class="summary-section">
-          <p>Productos: <span>$6.50</span></p>
-          <p>Envio: <span>$0.00</span></p>
-          <p>ITBMS: <span>$0.10</span></p>
-          <p class="total">Total: <span>$6.60</span></p>
+          <p>Productos: <span class="summary-section-productos"></span></p>
+          <p>Envio: <span class="summary-section-envio"></span></p>
+          <p>ITBMS: <span class="summary-section-itbms"></span></p>
+          <p>Total: <span class="summary-section-total"></span></p>
           <button class="order-button">Pedir</button>
         </div>
       </div>
     </main>
   </div>
 
+  <script>
+    function cargarResumenPedido() {
+      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+      let totalProductos = 0;
+      let subtotal = 0;
+
+      carrito.forEach(producto => {
+        subtotal += producto.precio * producto.cantidad;
+        totalProductos += producto.cantidad;
+      });
+
+      const itbms = +(subtotal * 0.07).toFixed(2); // 7% impuesto
+      const totalFinal = +(subtotal + itbms).toFixed(2);
+
+      document.querySelector('.summary-section-productos').textContent = `$${subtotal.toFixed(2)}`;
+      document.querySelector('.summary-section-envio').textContent = `$0.00`; // Envío gratis
+      document.querySelector('.summary-section-itbms').textContent = `$${itbms}`;
+      document.querySelector('.summary-section-total').textContent = `$${totalFinal}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarResumenPedido);
+  </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tu Carrito</title>
+  <link rel="stylesheet" href="../assets/css/App_modificado.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
@@ -35,6 +36,11 @@
 </head>
 
 <body>
+  <header class="app-header">
+    <img src="../assets/imag/logo-color.png" alt="logo" class="logo">
+    <h1>El Callejon</h1>
+  </header>
+
   <div class="container py-5">
     <h1 class="mb-4">Tu Carrito</h1>
 
@@ -118,6 +124,7 @@
               <button class="btn btn-outline-danger me-3" title="Eliminar producto" onclick="eliminarProducto(${i})">
                 <i class="bi bi-trash"></i>
               </button>
+              <img src="${item.imagen}" alt="Producto" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;">
               <div>
                 <h6 class="mb-1">${item.nombre}</h6>
                 <div class="input-group" style="width: 120px;">
@@ -129,7 +136,7 @@
             </div>
             <div class="text-end">
               <div>$${item.precio.toFixed(2)}</div>
-              <strong>$${subtotal.toFixed(2)}</strong>
+              <strong>$${(item.precio * item.cantidad).toFixed(2)}</strong>
             </div>
           </div>
         `;
@@ -178,7 +185,6 @@
         return false; // Evita continuar
       } else {
         // Aquí podrías agregar lógica para procesar el pago
-        localStorage.removeItem("carrito");
         actualizarContadorCarrito();
         alert("Gracias por tu compra. Redirigiendo al método de pago...");
         // Redirigir a método de pago
