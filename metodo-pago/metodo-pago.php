@@ -133,9 +133,7 @@
           </div>
           <div>
             <label for="ubicacion">Ubicación:</label>
-            <select id="ubicacion" style="width:100%;">
-              <option>Seleccionar</option>
-            </select>
+            <label>Calle Avenida Norte, Natá</label>
           </div>
           <div>
             <label>Método de pago</label>
