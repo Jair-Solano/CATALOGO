@@ -141,8 +141,7 @@
             <label>Método de pago</label>
             <div class="payment-options">
               <button class="payment-button" data-metodo="efectivo">Efectivo</button>
-              <button class="payment-button" data-metodo="tarjeta">Tarjeta</button>
-              <button class="payment-button" data-metodo="transferencia">Transferencia</button>
+              <button class="payment-button" data-metodo="yappy">Yappy</button>
             </div>
           </div>
         </div>
@@ -165,6 +164,8 @@
       </div>
     </main>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="qr-generator.js"></script>
   <script>
     // Selección visual y guardado del método de pago
     const buttons = document.querySelectorAll('.payment-button');
@@ -179,10 +180,14 @@
       });
     }
     buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         metodoSeleccionado = btn.dataset.metodo;
         localStorage.setItem('metodoPago', metodoSeleccionado);
         marcarSeleccion();
+        if (btn.dataset.metodo === 'yappy') {
+          const qrData = 'https://yappy.pagoseguro.com/ElCallejon'; // <-- Cambia esto por el dato real que usas para Yappy
+          window.showYappyQRDialog(qrData);
+        }
       });
     });
     marcarSeleccion();
