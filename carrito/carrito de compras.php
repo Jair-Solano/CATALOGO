@@ -188,7 +188,7 @@
         actualizarContadorCarrito();
         alert("Gracias por tu compra. Redirigiendo al método de pago...");
         // Redirigir a método de pago
-        window.location.href = "../metodo-pago/index.html";
+        window.location.href = "../metodo-pago/metodo-pago.php";
         return true;
       }
     }
@@ -222,6 +222,11 @@
     document.addEventListener("DOMContentLoaded", () => {
       actualizarContadorCarrito();
       renderCarrito();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const productos = JSON.parse(localStorage.getItem("carrito")) || [];
+      renderProductosTabla(productos);
     });
   </script>
 </body>

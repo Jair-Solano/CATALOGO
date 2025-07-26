@@ -93,25 +93,22 @@
     @media (max-width: 500px) {
       .card { padding: 8px; }
     }
-  align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
-}
-.btn-pedir {
-  margin-top: 24px;
-  background: #a3080d;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 0;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: 100%;
-}
-.btn-pedir:hover {
-  background: #7e0509;
-}
+
+    .btn-pedir {
+      margin-top: 24px;
+      background: #a3080d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 0;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .btn-pedir:hover {
+      background: #7e0509;
+    }
   </style>
 </head>
 <body>
@@ -187,81 +184,88 @@
     </main>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="qr-generator.js"></script>
-  <script>
-    // Selección visual y guardado del método de pago
-    const buttons = document.querySelectorAll('.payment-button');
-    let metodoSeleccionado = localStorage.getItem('metodoPago') || '';
-    function marcarSeleccion() {
-      buttons.forEach(btn => {
-        if (btn.dataset.metodo === metodoSeleccionado) {
-          btn.classList.add('selected');
-        } else {
-          btn.classList.remove('selected');
-        }
-      });
-    }
+<script src="qr-generator.js"></script>
+<script>
+  // --- Selección de método de pago ---
+  const buttons = document.querySelectorAll('.payment-button');
+  let metodoSeleccionado = localStorage.getItem('metodoPago') || '';
+
+  function marcarSeleccion() {
     buttons.forEach(btn => {
-      btn.addEventListener('click', async () => {
-        metodoSeleccionado = btn.dataset.metodo;
-        localStorage.setItem('metodoPago', metodoSeleccionado);
-        marcarSeleccion();
-        if (btn.dataset.metodo === 'yappy') {
-          const qrData = 'https://yappy.pagoseguro.com/ElCallejon'; // <-- Cambia esto por el dato real que usas para Yappy
-          window.showYappyQRDialog(qrData);
-        }
-      });
+      if (btn.dataset.metodo === metodoSeleccionado) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
     });
-    marcarSeleccion();
-    // --- DEMO: Productos seleccionados ---
-// Esto normalmente vendría de tu backend o localStorage. Aquí es ejemplo.
-const productosDemo = [
-  { nombre: 'Hamburguesa Clásica', cantidad: 2, precio: 4.50 },
-  { nombre: 'Papas Fritas', cantidad: 1, precio: 2.00 },
-  { nombre: 'Soda', cantidad: 3, precio: 1.10 }
-];
-// --- END DEMO ---
-
-function renderProductosTabla(productos) {
-  const tbody = document.getElementById('productos-listado');
-  tbody.innerHTML = '';
-  let totalProductos = 0;
-  productos.forEach(prod => {
-    const subtotal = prod.precio * prod.cantidad;
-    totalProductos += subtotal;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${prod.nombre}</td><td style='text-align:right;'>${prod.cantidad}</td><td style='text-align:right;'>$${prod.precio.toFixed(2)}</td><td style='text-align:right;'>$${subtotal.toFixed(2)}</td>`;
-    tbody.appendChild(tr);
-  });
-  return totalProductos;
-}
-
-// Inicializa valores de resumen
-const envio = 0.00;
-const itbms = 0.10;
-const totalProductos = renderProductosTabla(productosDemo);
-document.getElementById('resumen-envio').textContent = `$${envio.toFixed(2)}`;
-document.getElementById('resumen-itbms').textContent = `$${itbms.toFixed(2)}`;
-const total = totalProductos + envio + itbms;
-document.getElementById('resumen-total').textContent = `$${total.toFixed(2)}`;
-
-// --- Envío de datos a factura.php ---
-const formFactura = document.getElementById('form-factura');
-formFactura.addEventListener('submit', function(e) {
-  if (!metodoSeleccionado) {
-    e.preventDefault();
-    alert('Por favor, selecciona un método de pago.');
-    return false;
   }
-  // Puedes obtener estos datos reales de inputs o localStorage
-  document.getElementById('input-productos').value = JSON.stringify(productosDemo);
-  document.getElementById('input-envio').value = envio;
-  document.getElementById('input-itbms').value = itbms;
-  document.getElementById('input-total').value = total;
-  document.getElementById('input-cliente').value = 'Cliente Demo'; // Cambia por el real
-  document.getElementById('input-direccion').value = 'Dirección Demo'; // Cambia por el real
-});
-    // (Opcional) Aquí puedes cargar los valores del resumen desde localStorage o PHP si lo deseas
-  </script>
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      metodoSeleccionado = btn.dataset.metodo;
+      localStorage.setItem('metodoPago', metodoSeleccionado);
+      marcarSeleccion();
+
+      if (btn.dataset.metodo === 'yappy') {
+        const qrData = 'https://yappy.pagoseguro.com/ElCallejon'; // <-- Actualiza si tienes uno real
+        window.showYappyQRDialog(qrData);
+      }
+    });
+  });
+
+  marcarSeleccion();
+
+  // --- FUNCIONES ---
+  function renderProductosTabla(productos) {
+    const tbody = document.getElementById('productos-listado');
+    tbody.innerHTML = '';
+    let totalProductos = 0;
+
+    productos.forEach(prod => {
+      const subtotal = prod.precio * prod.cantidad;
+      totalProductos += subtotal;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${prod.nombre}</td>
+        <td style='text-align:right;'>${prod.cantidad}</td>
+        <td style='text-align:right;'>$${prod.precio.toFixed(2)}</td>
+        <td style='text-align:right;'>$${subtotal.toFixed(2)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    return totalProductos;
+  }
+
+  // --- Cargar productos desde localStorage ---
+  const productos = JSON.parse(localStorage.getItem("carrito")) || [];
+  const envio = 0.00;
+  const subtotal = renderProductosTabla(productos);
+  const itbms = +(subtotal * 0.07).toFixed(2); // 7% del subtotal, redondeado a 2 decimales
+  const total = subtotal + envio + itbms;
+
+  // Mostrar resumen
+  document.getElementById('resumen-envio').textContent = `$${envio.toFixed(2)}`;
+  document.getElementById('resumen-itbms').textContent = `$${itbms.toFixed(2)}`;
+  document.getElementById('resumen-total').textContent = `$${total.toFixed(2)}`;
+
+  // --- Enviar a factura.php ---
+  const formFactura = document.getElementById('form-factura');
+  formFactura.addEventListener('submit', function(e) {
+    if (!metodoSeleccionado) {
+      e.preventDefault();
+      alert('Por favor, selecciona un método de pago.');
+      return false;
+    }
+
+    document.getElementById('input-productos').value = JSON.stringify(productos);
+    document.getElementById('input-envio').value = envio;
+    document.getElementById('input-itbms').value = itbms;
+    document.getElementById('input-total').value = total;
+    document.getElementById('input-cliente').value = 'Cliente Demo'; // Reemplaza si tienes un cliente real
+    document.getElementById('input-direccion').value = 'Dirección Demo'; // Reemplaza si tienes una dirección real
+  });
+</script>
+
 </body>
 </html>

@@ -36,9 +36,25 @@ $orderId = rand(1000000,9999999);
       .factura-container { padding: 14px; }
       .factura-header { font-size: 1.3rem; }
     }
+    .app-header {
+      background: #a3080d;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { height: 40px; margin-right: 10px; }
   </style>
 </head>
 <body>
+  <header class="app-header">
+    <img src="../assets/imag/logo-color.png" alt="logo" class="logo">
+    <h1>El Callejon</h1>
+  </header>
+
   <div class="factura-container">
     <div class="factura-header">El Callejon</div>
     <div class="factura-sub">Gracias por tu pedido. Aquí tienes tu factura:</div>

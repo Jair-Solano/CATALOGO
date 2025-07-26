@@ -1,5 +1,5 @@
 <?php
-include '../db/conexion.php';
+include '../db/conexion.php' ;
 session_start();
 // Obtener productos para el carrusel (en_carrusel=1)
 $carrusel = $conexion->query("SELECT * FROM productos WHERE en_carrusel=1 ORDER BY ID ASC");
