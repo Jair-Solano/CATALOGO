@@ -1,0 +1,89 @@
+/* Estilo moderno para el footer */
+.footer {
+    background: #6c0b0d;
+    color: #fff;
+    padding: 2.5rem 0 1rem 0; 
+    box-shadow: 0 -4px 24px rgba(255,152,0,0.08);
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    margin-top: 3rem;
+    position: relative;
+    z-index: 20;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo img {
+    width: 90px;
+    margin-bottom: 1.2rem;
+    display: block;
+}
+
+.footer-section {
+    min-width: 180px;
+    max-width: 250px;
+}
+
+.footer-section h4 {
+    margin-bottom: 0.7rem;
+    color: #fffde7;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: text-decoration 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+    color: #fffde7;
+}
+
+.footer-section p, .footer-section a, .footer-section i {
+    font-size: 0.97rem;
+    opacity: 0.95;
+}
+
+.social-icons {
+    margin-top: 0.5rem;
+}
+
+.social-icons a {
+    color: #fff;
+    margin-right: 0.7rem;
+    font-size: 1.3rem;
+    transition: color 0.2s;
+}
+
+.social-icons a:hover {
+    color: #fffde7;
+}
+
+.footer-copy {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.97rem;
+    opacity: 0.85;
+}

@@ -1,0 +1,83 @@
+/* Estilos para la imagen de la product card */
+.product-card-img-container {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+  background: #faf9f7;
+  border-radius: 12px 12px 0 0;
+}
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Estilos para el modal semitransparente y su contenido */
+.product-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.product-modal {
+  background: rgba(255,255,255,0.80);
+  border-radius: 18px;
+  padding: 32px 24px 24px 24px;
+  max-width: 350px;
+  width: 90vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  text-align: center;
+  position: relative;
+  animation: modalIn 0.2s;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+.product-modal-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.product-modal-name {
+  font-size: 1.3rem;
+  color: #a1001f;
+  margin-bottom: 6px;
+}
+.product-modal-price {
+  font-size: 1.1rem;
+  color: #e2b100;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+.product-modal-desc {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 12px;
+}
+.product-modal-rating {
+  margin-bottom: 8px;
+}
+.product-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #a1001f;
+  cursor: pointer;
+}
+@keyframes modalIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

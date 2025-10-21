@@ -1,0 +1,157 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: Arial, sans-serif;
+  background-color: #fdfcfc;
+  color: #333;
+  width: 100%;
+}
+
+/* Contenedor principal */
+.app-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fdfcfc;
+  width: 100%;
+}
+
+/* Header superior */
+.app-header {
+  background-color: #a3080d;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  text-align: left;
+}
+
+/* Título */
+.card h2 {
+  color: #a3080d;
+  margin-bottom: 20px;
+}
+
+/* Contenido con flex */
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* Sección izquierda */
+.form-section {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-section label {
+  font-weight: bold;
+}
+
+.form-section select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.payment-button {
+  background-color: #a3080d;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Switch de factura */
+.toggle-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+/* Sección derecha */
+.summary-section {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.summary-section p {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.order-button {
+  background-color: #a3080d;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 600px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .order-button {
+    width: 100%;
+  }
+
+  .toggle-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
